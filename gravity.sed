@@ -1,1 +1,2 @@
-#!/bin/gsed
+#!/bin/sed -nf
+/t/d
