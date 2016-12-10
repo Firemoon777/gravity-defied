@@ -1,4 +1,5 @@
 #!/bin/sh
+clear
 SLEEP=sleep
 TIME=0.5
 SED=/usr/bin/sed
@@ -26,6 +27,7 @@ done &
 do
 	read -s -n 1 key 
 	echo $key
+	[[ $key == "q" ]] && pkill -P $$ 
 done ) | $SED -u -e '/t/d' > gravity-fifo
 
 # finish game
