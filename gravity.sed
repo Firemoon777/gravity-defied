@@ -10,7 +10,7 @@
 /^q/q
 /^s/b left
 /^w/b press_right 
-#/^t/b down 
+/^t/b down 
 /^a/b rotate1
 /^d/b rotate-1
 /^/d
@@ -22,7 +22,7 @@ s/.*/\
 +-------------------------------------+\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBSBFBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
+|BBBBBBBBBBBBBBBBBBBBBBSBFBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB|\
@@ -123,6 +123,11 @@ b end
 		}
 		b right
 	}
+	/S.{39}R/ {
+		/F.{39}R/ !{ 
+			b rotate-1
+		}
+	}
 	b end 
 :check
 /(S|F)(.*)(F|S)/ !{ 
@@ -147,7 +152,7 @@ s/F/[107;38;5;0m○[0m/g
 # Background
 s/B/[107m [0m/g
 # Remove speed
-s/[0-9]s//
+#s/[0-9]s//
 i\
 [H
 /died$/ {
