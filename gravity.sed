@@ -22,12 +22,12 @@ s/.*/\
 +-------------------------------------+\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBBSBFBBBBBBBBBBBB|\
+|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB|\
 |RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBBB|\
-|BRBBBBBBBBBBBBBBBRBBBBBBRBBBBBBBBBBBB|\
+|BRBSBFBBBBBBBBBBBRBBBBBBRBBBBBBBBBBBB|\
 |BBRRRRRRRRRRRRRRRBBBBBBBRRRRRRRRRRRRR|\
 +-------------------------------------+\
 0s\
@@ -42,6 +42,12 @@ b end
 		s/2s/4s/
 		s/1s/2s/
 		s/0s/1s/
+		/FR/ {
+			s/(B)(.{39})(F)/\3\2\1/
+		}
+		/SR/ {
+			s/(B)(.{39})(S)/\3\2\1/
+		}
 	:right
 		s/SFR/BFR/g	
 		s/SB/BS/g
@@ -125,7 +131,7 @@ b end
 	}
 	/S.{39}R/ {
 		/F.{39}R/ !{ 
-			/F.{37,38}S/b rotate-1
+			/F.{35,38}S/b rotate-1
 			/F.{39,40}S/b rotate1
 			/F.S/b rotate1
 			/S.F/b rotate-1
@@ -145,10 +151,19 @@ b end
 	}
 	b end 
 :check
-/(S|F)(.*)(F|S)/ !{ 
-	s/$/died/
-	b end
+/(S|F)(.*)(F|S)/ ! b die 
+/S.{37,41}F/b end
+/F.{37,41}S/b end
+/F.*S/ {
+	/F.{39}R/ {
+		/S.{39}R/b die
+	}
 }
+/S.F/b end
+/SF/b end
+:die
+s/$/died/
+b end
 :end
 h
 # Road █ ▞
@@ -167,7 +182,7 @@ s/F/[107;38;5;0m○[0m/g
 # Background
 s/B/[107m [0m/g
 # Remove speed
-#s/[0-9]s//
+s/[0-9]s//
 i\
 [H
 /died$/ {
