@@ -22,8 +22,8 @@ s/.*/\
 +-------------------------------------+\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
+|BBBBSBFBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBSBFBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB|\
 |RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBBB|\
@@ -68,24 +68,41 @@ b end
 # Counterclockwise
 :rotate1
 	g
-	/(F|S)(.{39})(B)(.)(S|F)/ {
-		s/(F|S)(.{39})(B)(.)(S|F)/\3\2\1\4\5/g
+	/S.{41}F/ {
+		s/(S)(.)(B)(.{39})(F)/\1\2\5\4\3/
 		b check
 	}
+	s/(S)(.{40})(F)(B)/\1\2\4\3/
+	s/(S)(.{39})(F)(B)/\1\2\4\3/
+	s/(S)(.{38})(F)(B)/\1\2\4\3/
+	s/(S)(.{37})(F)(B)/\1\2\4\3/
+	s/(F)(.)(S)(.{37})(B)/\5\2\3\4\1/
+	s/(F)(.{39})(B)(.)(S)/\3\2\1\4\5/
+	s/(B)(F)(.{40})(S)/\2\1\3\4/
+	s/(B)(F)(.{39})(S)/\2\1\3\4/
+	s/(B)(F)(.{38})(S)/\2\1\3\4/
+	s/(B)(F)(.{37})(S)/\2\1\3\4/
+	s/(B)(.{37})(S)(.)(F)/\5\2\3\4\1/g
 
-	s/(B)(F|S)(.{41})(S|F)/\2\1\3\4/g
-	s/(B)(F|S)(.{40})(S|F)/\2\1\3\4/g
-	s/(B)(F|S)(.{39})(S|F)/\2\1\3\4/g
-	
-	s/(B)(F|S)(.{38})(S|F)/\2\1\3\4/g
-	s/(B)(F|S)(.{37})(S|F)/\2\1\3\4/g
-	s/(B)(.{37})(S|F)(.)(F|S)/\5\2\3\4\1/g
 	b check
 # Clockwise
 :rotate-1
 	g
-	s/(B)(.{39})(S|F)(.)(F|S)/\3\2\1\4\5/g
-
+	/F.{37}S/ {
+		s/(F)(.{37})(S)(.)(B)/\5\2\3\4\1/
+		b check
+	}
+	s/(F)(B)(.{37})(S)/\2\1\3\4/
+	s/(F)(B)(.{38})(S)/\2\1\3\4/
+	s/(F)(B)(.{39})(S)/\2\1\3\4/
+	s/(F)(B)(.{40})(S)/\2\1\3\4/
+	s/(B)(.{39})(F)(.)(S)/\3\2\1\4\5/
+	s/(B)(.)(S)(.{37})(F)/\5\2\3\4\1/
+	s/(S)(.{37})(B)(F)/\1\2\4\3/
+	s/(S)(.{38})(B)(F)/\1\2\4\3/
+	s/(S)(.{39})(B)(F)/\1\2\4\3/
+	s/(S)(.{40})(B)(F)/\1\2\4\3/
+	s/(S)(.)(F)(.{39})(B)/\1\2\5\4\3/
 	b check
 # Physics
 :down
@@ -129,6 +146,8 @@ s/S/[107;38;5;0m◉[0m/g
 s/F/[107;38;5;0m○[0m/g
 # Background
 s/B/[107m [0m/g
+# Remove speed
+s/[0-9]s//
 i\
 [H
 /died$/ {
