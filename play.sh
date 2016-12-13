@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 clear
 SLEEP=sleep
 TIME=0.5
