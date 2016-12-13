@@ -10,9 +10,9 @@
 /^q/q
 /^s/b left
 /^w/b press_right 
-/^t/b down 
+#/^t/b down 
 /^a/b rotate1
-/^e/b rotate-1
+/^d/b rotate-1
 /^/d
 b end
 
@@ -23,7 +23,7 @@ s/.*/\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBBBBSBFBBBBBBBBBB|\
+|BBBBBSBFBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB|\
 |BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB|\
 |RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBBB|\
@@ -68,7 +68,10 @@ b end
 # Counterclockwise
 :rotate1
 	g
-	s/(F|S)(.{39})(B)(.)(S|F)/\3\2\1\4\5/g
+	/(F|S)(.{39})(B)(.)(S|F)/ {
+		s/(F|S)(.{39})(B)(.)(S|F)/\3\2\1\4\5/g
+		b check
+	}
 
 	s/(B)(F|S)(.{41})(S|F)/\2\1\3\4/g
 	s/(B)(F|S)(.{40})(S|F)/\2\1\3\4/g
@@ -76,12 +79,13 @@ b end
 	
 	s/(B)(F|S)(.{38})(S|F)/\2\1\3\4/g
 	s/(B)(F|S)(.{37})(S|F)/\2\1\3\4/g
-	s/(B)(.{37})(S|F)(.)(F|B)/\5\2\3\4\1/g
+	s/(B)(.{37})(S|F)(.)(F|S)/\5\2\3\4\1/g
 	b check
 # Clockwise
 :rotate-1
 	g
-	s/0s/1s/g
+	s/(B)(.{39})(S|F)(.)(F|S)/\3\2\1\4\5/g
+
 	b check
 # Physics
 :down
