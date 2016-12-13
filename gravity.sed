@@ -125,7 +125,22 @@ b end
 	}
 	/S.{39}R/ {
 		/F.{39}R/ !{ 
-			b rotate-1
+			/F.{37,38}S/b rotate-1
+			/F.{39,40}S/b rotate1
+			/F.S/b rotate1
+			/S.F/b rotate-1
+			/S.{37,38}F/b rotate1
+			/S.{39,41}F/b rotate-1
+		}
+	}
+	/F.{39}R/ {
+		/S.{39}R/ !{
+			/F.{37,38}S/b rotate1
+			/F.{39,40}S/b rotate-1
+			/F.S/b rotate-1
+			/S.F/b rotate1
+			/S.{37,38}F/b rotate-1
+			/S.{39,41}F/b rotate1
 		}
 	}
 	b end 
