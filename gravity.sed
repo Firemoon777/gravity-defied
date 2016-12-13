@@ -7,6 +7,7 @@
 # key map
 /^$/b print
 /^r/b print
+/died/ b end
 /^q/q
 /^s/b left
 /^w/b press_right 
@@ -17,20 +18,22 @@
 b end
 
 :print 
+/died/d
 g
 s/.*/\
-+-------------------------------------+\
-|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB|\
-|BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB|\
-|RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBBB|\
-|BRBSBFBBBBBBBBBBBRBBBBBBRBBBBBBBBBBBB|\
-|BBRRRRRRRRRRRRRRRBBBBBBBRRRRRRRRRRRRR|\
-+-------------------------------------+\
++-----------------------+\
+|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB1\
+|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB2\
+|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB3\
+|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB4\
+|BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB5\
+|BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB6\
+|RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBRR7\
+|BRBSBFBBBBBBBBBBBRBBBBBBRBBBBBBBBRRBB8\
+|BBRRRRRRRRRRRRRRRBBBBBBBRRRRRRRRRBBBB9\
++-----------------------+\
 0s\
+0z\
 /
 b end
 
@@ -52,6 +55,7 @@ b end
 		s/SFR/BFR/g	
 		s/SB/BS/g
 		s/FB/BF/g	
+
 	}
 	/[1-9]s[1-9]/ {
 		s/(.)s1/\1s0/
@@ -61,6 +65,52 @@ b end
 		b right
 	}
 	s/([0-9])s[0-9]*/\1s/
+	# load new zone if needed
+	/(S|F)(.{16,32})[0-9]/ {
+		s/\|./|/g
+		s/(B|R|#)([0-9])/\1#\2/g
+		/(#{10,13})/ {
+			/0z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/BBBBBBBBBB\1/
+				s/#*(7\n)/RRRBBBBRRR\1/
+				s/#*(8\n)/BBBRBBRBBB\1/
+				s/#*(9\n)/BBBBRRBBBB\1/
+				s/0z/1z/
+				b check
+			}
+			/1z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/BBBBBBBBBB\1/
+				s/#*(7\n)/BBBBBBBBBB\1/
+				s/#*(8\n)/BBRRRRRRRR\1/
+				s/#*(9\n)/RRRBBBBBBB\1/
+				s/1z/2z/
+				b check
+			}
+			/2z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/BBBBBBBBBB\1/
+				s/#*(7\n)/BBBBBBBBBB\1/
+				s/#*(8\n)/BBRRRRRRRR\1/
+				s/#*(9\n)/RRRBBBBBBB\1/
+				s/2z/3z/
+				b check
+			}
+		}
+	}
 	b check
 
 :left
@@ -165,13 +215,21 @@ b end
 s/$/died/
 b end
 :end
+# save changes to hold buffer and process post-effects
 h
+# Remove speed
+s/[0-9]s//
+# Remove zone
+s/[0-9]*z//g
 # Road █ ▞
 # s/([^B])R/\1P/g
+# test
 s/R(.{38})R/U\1U/g
 s/R(.{39})R/A\1A/g
 s/R(.{40})R/D\1D/g
 s/R/P/g
+# Hide screen buffer
+s/(.{14})([0-9])/|/g
 s/A/[107;38;5;82m█[0m/g
 s/D/[107;38;5;82m▚[0m/g
 s/P/[107;38;5;82m▀[0m/g
@@ -181,8 +239,7 @@ s/S/[107;38;5;0m◉[0m/g
 s/F/[107;38;5;0m○[0m/g
 # Background
 s/B/[107m [0m/g
-# Remove speed
-s/[0-9]s//
+:test
 i\
 [H
 /died$/ {
