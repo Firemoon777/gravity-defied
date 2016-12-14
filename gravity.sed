@@ -9,11 +9,11 @@
 /^r/b print
 /died/ b end
 /^q/q
-/^s/b left
-/^w/b press_right 
+/^(s|2)/b left
+/^(w|8)/b press_right 
 /^t/b down 
-/^a/b rotate1
-/^d/b rotate-1
+/^(a|4)/b rotate1
+/^(d|6)/b rotate-1
 /^/d
 b end
 
@@ -58,14 +58,6 @@ b end
 		s/SB/BS/g
 		s/FB/BF/g	
 	}
-	/[1-9]s[1-9]/ {
-		s/(.)s1/\1s0/
-		s/(.)s2/\1s1/
-		s/(.)s3/\1s2/
-		s/(.)s4/\1s3/
-		b right
-	}
-	s/([0-9])s[0-9]*/\1s/
 	# prevent scrolling at last zone
 	# load new zone if needed
 	/(S|F)(.{2,25})[0-9]/ {
@@ -83,7 +75,7 @@ b end
 				s/#*(8\n)/BBBBDUBBBB\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/0z/1z/
-				b check
+				b continue
 			}
 			/1z/ {
 				s/#*(1\n)/BBBBBBBBBB\1/
@@ -96,7 +88,7 @@ b end
 				s/#*(8\n)/BBPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/1z/2z/
-				b check
+				b continue
 			}
 			/2z/ {
 				s/#*(1\n)/BBBBBBBBBB\1/
@@ -109,7 +101,7 @@ b end
 				s/#*(8\n)/PPPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/2z/3z/
-				b check
+				b continue
 			}
 			/3z/ {
 				s/#*(1\n)/BBBBBBBBBB\1/
@@ -122,7 +114,7 @@ b end
 				s/#*(8\n)/PPPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/3z/4z/
-				b check
+				b continue
 			}
 			/4z/ {
 				s/#*(1\n)/BBBBBBBBBB\1/
@@ -135,10 +127,19 @@ b end
 				s/#*(8\n)/PPPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/3z/4z/
-				b check
+				b continue
 			}
 		}
 	}
+	:continue
+	/[1-9]s[1-9]/ {
+		s/(.)s1/\1s0/
+		s/(.)s2/\1s1/
+		s/(.)s3/\1s2/
+		s/(.)s4/\1s3/
+		b right
+	}
+	s/([0-9])s[0-9]*/\1s/
 	b check
 
 :left
