@@ -2,7 +2,7 @@
 clear
 SLEEP=sleep
 TIME=0.5
-SED=/usr/bin/sed
+SED="/usr/bin/env sed"
 
 # Creating fifo for input
 rm -f gravity-fifo;
