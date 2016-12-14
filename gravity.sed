@@ -9,11 +9,11 @@
 /^r/b print
 /died/ b end
 /^q/q
-/^s/b left
-/^w/b press_right 
+/^s|j/b left
+/^w|k/b press_right 
 /^t/b down 
-/^a/b rotate1
-/^d/b rotate-1
+/^a|h/b rotate1
+/^d|l/b rotate-1
 /^/d
 b end
 
