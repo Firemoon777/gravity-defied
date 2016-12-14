@@ -26,11 +26,11 @@ s/.*/\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB2\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB3\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB4\
-|BBBBBBBBBBBBBBBBBBBBBRRRRBBBBBBBBBBBB5\
-|BBBBBBBBBBBBBBBBBBBBRBBBRBBBBBBBBBBBB6\
-|RBBBBBBBBBBBBBBBBBRRBBBBRBBBBBBBBBBRR7\
-|BRBSBFBBBBBBBBBBBRBBBBBBRBBBBBBBBRRBB8\
-|BBRRRRRRRRRRRRRRRBBBBBBBRRRRRRRRRBBBB9\
+|BBBBBBBBBBBBBBBBBBBBBUPPABBBBBBBBBBBB5\
+|BBBBBBBBBBBBBBBBBBBBUBBBABBBBBAPPPPPP6\
+|DBBBBBBBBBBBBBBBBBUPBBBBABBBBBABBBBBB7\
+|BDBSBFBBBBBBBBBBBUBBBBBBABBBBBABBBBBB8\
+|BBPPPPPPPPPPPPPPPBBBBBBBPPPPPPPBBBBBB9\
 +-----------------------+\
 0s\
 0z\
@@ -41,18 +41,16 @@ b end
 :press_right
 	g
 	# Prevent moving in air
-	/(F|S)(.{39})R/ {
+	/(F|S)(.{39})(B|U|D|P|A)/ {
 		s/2s/4s/
 		s/1s/2s/
 		s/0s/1s/
-		/FR/ {
+		/S(U|D|P|A)/ {
 			s/(B)(.{39})(F)/\3\2\1/
-		}
-		/SR/ {
 			s/(B)(.{39})(S)/\3\2\1/
 		}
 	:right
-		s/SFR/BFR/g	
+		s/SF(U|D|P|A)/BF\1/g	
 		s/SB/BS/g
 		s/FB/BF/g	
 
@@ -66,9 +64,9 @@ b end
 	}
 	s/([0-9])s[0-9]*/\1s/
 	# load new zone if needed
-	/(S|F)(.{16,32})[0-9]/ {
+	/(S|F)(.{22,32})[0-9]/ {
 		s/\|./|/g
-		s/(B|R|#)([0-9])/\1#\2/g
+		s/(B|U|D|P|A|#)([0-9])/\1#\2/g
 		/(#{10,13})/ {
 			/0z/ {
 				s/#*(1\n)/BBBBBBBBBB\1/
@@ -77,9 +75,9 @@ b end
 				s/#*(4\n)/BBBBBBBBBB\1/
 				s/#*(5\n)/BBBBBBBBBB\1/
 				s/#*(6\n)/BBBBBBBBBB\1/
-				s/#*(7\n)/RRRBBBBRRR\1/
-				s/#*(8\n)/BBBRBBRBBB\1/
-				s/#*(9\n)/BBBBRRBBBB\1/
+				s/#*(7\n)/BBBBBBBBBB\1/
+				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
 				s/0z/1z/
 				b check
 			}
@@ -91,8 +89,8 @@ b end
 				s/#*(5\n)/BBBBBBBBBB\1/
 				s/#*(6\n)/BBBBBBBBBB\1/
 				s/#*(7\n)/BBBBBBBBBB\1/
-				s/#*(8\n)/BBRRRRRRRR\1/
-				s/#*(9\n)/RRRBBBBBBB\1/
+				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
 				s/1z/2z/
 				b check
 			}
@@ -104,8 +102,8 @@ b end
 				s/#*(5\n)/BBBBBBBBBB\1/
 				s/#*(6\n)/BBBBBBBBBB\1/
 				s/#*(7\n)/BBBBBBBBBB\1/
-				s/#*(8\n)/BBRRRRRRRR\1/
-				s/#*(9\n)/RRRBBBBBBB\1/
+				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
 				s/2z/3z/
 				b check
 			}
@@ -115,8 +113,8 @@ b end
 
 :left
 	g
-	/(F|S)(.{39})R/ {
-		s/RSF/RSB/g	
+	/(F|S)(.{39})(B|U|D|P|A)/ {
+		s/(U|D|P|A)SF/\1SB/g	
 		s/BF/FB/g
 		s/BS/SB/g
 	}
@@ -164,14 +162,14 @@ b end
 :down
 	g
 	# Free fall
-	/F(.{39})R|S(.{39})R/ !{
+	/F(.{39})(U|D|P|A)|S(.{39})(U|D|P|A)/ !{
 		s/S(.{39})B/B\1S/
 		s/F(.{39})B/B\1F/
 	}
 	# Velocity
 	/[1-9]s/ {
 		s/(.)s/\1s\1/
-		/(F|S)(.{39})R/ {
+		/(F|S)(.{39})(U|D|P|A)/ {
 			s/1s/0s/
 			s/2s/1s/
 			s/3s/2s/
@@ -179,18 +177,18 @@ b end
 		}
 		b right
 	}
-	/S.{39}R/ {
-		/F.{39}R/ !{ 
+	/S.{39}(U|D|P|A)/ {
+		/F.{39}(U|D|P|A)/ !{ 
 			/F.{35,38}S/b rotate-1
-			/F.{39,40}S/b rotate1
+			/F.{39,41}S/b rotate1
 			/F.S/b rotate1
 			/S.F/b rotate-1
 			/S.{37,38}F/b rotate1
 			/S.{39,41}F/b rotate-1
 		}
 	}
-	/F.{39}R/ {
-		/S.{39}R/ !{
+	/F.{39}(U|D|P|A)/ {
+		/S.{39}(U|D|P|A)/ !{
 			/F.{37,38}S/b rotate1
 			/F.{39,40}S/b rotate-1
 			/F.S/b rotate-1
@@ -205,8 +203,8 @@ b end
 /S.{37,41}F/b end
 /F.{37,41}S/b end
 /F.*S/ {
-	/F.{39}R/ {
-		/S.{39}R/b die
+	/F.{39}(U|D|P|A)/ {
+		/S.{39}(U|D|P|A)/b die
 	}
 }
 /S.F/b end
@@ -217,19 +215,15 @@ b end
 :end
 # save changes to hold buffer and process post-effects
 h
+# Disable post-effects
+# b test
 # Remove speed
 s/[0-9]s//
 # Remove zone
 s/[0-9]*z//g
 # Road █ ▞
-# s/([^B])R/\1P/g
-# test
-s/R(.{38})R/U\1U/g
-s/R(.{39})R/A\1A/g
-s/R(.{40})R/D\1D/g
-s/R/P/g
 # Hide screen buffer
-s/(.{14})([0-9])/|/g
+# s/(.{14})([0-9])/|/g
 s/A/[107;38;5;82m█[0m/g
 s/D/[107;38;5;82m▚[0m/g
 s/P/[107;38;5;82m▀[0m/g
@@ -245,5 +239,9 @@ i\
 /died$/ {
 	s/died$/You're died!/
 	p;q
+}
+/win$/ {
+	s/win$/Congratulations!/
+	p;g
 }
 p

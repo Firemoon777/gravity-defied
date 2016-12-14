@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 SLEEP=sleep
-TIME=0.5
+TIME=0.3
 SED=/usr/bin/sed
 
 # Creating fifo for input
