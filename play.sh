@@ -52,7 +52,7 @@ do
        	$SLEEP $TIME 
 done &
 
-
+exec 2> /dev/null
 # Pass key press to game
 (while true 
 do
