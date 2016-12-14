@@ -1,9 +1,40 @@
-#!/bin/bash
+#!/bin/bash 
 clear
-SLEEP=sleep
-TIME=0.3
-SED=/usr/bin/sed
+SLEEP=
+TIME=300000
+SED=`which sed`
 
+# Check for sleep function
+usleep $TIME 2>/dev/null
+if [ $? == 0 ]
+then
+	SLEEP=usleep
+else
+	# Chech for floating point sleep
+	sleep 0.$TIME 2>/dev/null
+	if [ $? == 0 ] 
+	then
+		SLEEP=sleep
+		TIME=0.$TIME
+	else
+		echo "Sleep with floating point or usleep don't found"
+		exit
+	fi
+fi
+# Check sed for -u
+$SED -u '' /dev/null 2>/dev/null
+# Try to use gsed instead
+if [ $? != 0 ]
+then
+	gsed -u '' /dev/null 2>/dev/null
+	if [ $? == 0 ] 
+	then
+		SED=gsed
+	else
+		echo "Your sed isn't compatible with game"
+		exit
+	fi	
+fi
 # Creating fifo for input
 rm -f gravity-fifo;
 mkfifo gravity-fifo;
