@@ -50,10 +50,13 @@ b end
 			s/(B)(.{39})(S)/\3\2\1/
 		}
 	:right
+		/(F|S)(Q|q)/ {
+			s/$/win/
+			b check
+		}
 		s/SF(U|D|P|A)/BF\1/g	
 		s/SB/BS/g
 		s/FB/BF/g	
-
 	}
 	/[1-9]s[1-9]/ {
 		s/(.)s1/\1s0/
@@ -63,8 +66,9 @@ b end
 		b right
 	}
 	s/([0-9])s[0-9]*/\1s/
+	# prevent scrolling at last zone
 	# load new zone if needed
-	/(S|F)(.{22,32})[0-9]/ {
+	/(S|F)(.{2,25})[0-9]/ {
 		s/\|./|/g
 		s/(B|U|D|P|A|#)([0-9])/\1#\2/g
 		/(#{10,13})/ {
@@ -74,9 +78,9 @@ b end
 				s/#*(3\n)/BBBBBBBBBB\1/
 				s/#*(4\n)/BBBBBBBBBB\1/
 				s/#*(5\n)/BBBBBBBBBB\1/
-				s/#*(6\n)/BBBBBBBBBB\1/
-				s/#*(7\n)/BBBBBBBBBB\1/
-				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/PPDBBBBUPP\1/
+				s/#*(7\n)/BBBDBBUBBB\1/
+				s/#*(8\n)/BBBBDUBBBB\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/0z/1z/
 				b check
@@ -87,9 +91,9 @@ b end
 				s/#*(3\n)/BBBBBBBBBB\1/
 				s/#*(4\n)/BBBBBBBBBB\1/
 				s/#*(5\n)/BBBBBBBBBB\1/
-				s/#*(6\n)/BBBBBBBBBB\1/
-				s/#*(7\n)/BBBBBBBBBB\1/
-				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/DBBBBBBBBB\1/
+				s/#*(7\n)/BDBBBBABBB\1/
+				s/#*(8\n)/BBPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/1z/2z/
 				b check
@@ -101,10 +105,36 @@ b end
 				s/#*(4\n)/BBBBBBBBBB\1/
 				s/#*(5\n)/BBBBBBBBBB\1/
 				s/#*(6\n)/BBBBBBBBBB\1/
-				s/#*(7\n)/BBBBBBBBBB\1/
-				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(7\n)/ABBBABBBAB\1/
+				s/#*(8\n)/PPPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/2z/3z/
+				b check
+			}
+			/3z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBQBBB\1/
+				s/#*(6\n)/BBBBBBqBBB\1/
+				s/#*(7\n)/BBBBBBqBBB\1/
+				s/#*(8\n)/PPPPPPPPPP\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
+				s/3z/4z/
+				b check
+			}
+			/4z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBBBBB\1/
+				s/#*(6\n)/BBBBBBBBBB\1/
+				s/#*(7\n)/BBBBBBBBBB\1/
+				s/#*(8\n)/PPPPPPPPPP\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
+				s/3z/4z/
 				b check
 			}
 		}
@@ -223,7 +253,7 @@ s/[0-9]s//
 s/[0-9]*z//g
 # Road █ ▞
 # Hide screen buffer
-# s/(.{14})([0-9])/|/g
+s/(.{14})([0-9])/|/g
 s/A/[107;38;5;82m█[0m/g
 s/D/[107;38;5;82m▚[0m/g
 s/P/[107;38;5;82m▀[0m/g
@@ -233,6 +263,9 @@ s/S/[107;38;5;0m◉[0m/g
 s/F/[107;38;5;0m○[0m/g
 # Background
 s/B/[107m [0m/g
+# Finish
+s/Q/[107;38;5;33m▶[0m/g
+s/q/[107;38;5;33m▏[0m/g
 :test
 i\
 [H
@@ -242,6 +275,6 @@ i\
 }
 /win$/ {
 	s/win$/Congratulations!/
-	p;g
+	p;q
 }
 p
