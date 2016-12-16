@@ -54,12 +54,14 @@ done &
 
 exec 2> /dev/null
 # Pass key press to game
+
 (while true 
 do
-	read -s -n 1 key 
+	read -s -n 1 key
 	echo $key
 	[[ $key == "q" ]] && pkill -P $$ 
-done ) | $SED -u -e '/t/d' > gravity-fifo
+done) | $SED -u -e '/t/d' > gravity-fifo
+
 
 # finish game
 pkill -P $$

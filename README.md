@@ -1,9 +1,14 @@
-# Gravity defied on sed
-Gravity defied clone written on GNU sed with only one level.  
+# Gravity defied written on sed
+Gravity defied clone written on GNU sed with only one (but hardcore) level.  
 It's not perfect, but you can give it a try  
-[Click here to watch video](https://asciinema.org/a/9clhjp8g01qg4vo5if80xhbkn)  
+[Click here to watch demo video](https://asciinema.org/a/ddfusaite83m32k8vblg10iil)
 
 ## How to play
+
+### Requirements
+
+- GNU sed
+- sleep with floating point time / usleep
 
 ### Installation
 ```
@@ -25,5 +30,9 @@ cd gravity-defied
 
 ## Known issues
 - Sometimes bike doesn't fall on rotating
-- Game doesn't check upside down driving 
-- No fast restart after game over
+- No fast restart
+Possible solution:
+```
+while true; do ./play.sh ; done
+```
+- Incorrect colors

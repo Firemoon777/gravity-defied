@@ -7,7 +7,6 @@
 # key map
 /^$/b print
 /^r/b print
-/died/ b end
 /^q/q
 /^(s|2)/b left
 /^(w|8)/b press_right 
@@ -18,18 +17,17 @@
 b end
 
 :print 
-/died/d
 g
 s/.*/\
 +-----------------------+\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB1\
-|BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB2\
+|BBBBSBFBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB2\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB3\
 |BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB4\
 |BBBBBBBBBBBBBBBBBBBBBUPPABBBBBBBBBBBB5\
 |BBBBBBBBBBBBBBBBBBBBUBBBABBBBBAPPPPPP6\
 |DBBBBBBBBBBBBBBBBBUPBBBBABBBBBABBBBBB7\
-|BDBSBFBBBBBBBBBBBUBBBBBBABBBBBABBBBBB8\
+|BDBBBBBBBBBBBBBBBUBBBBBBABBBBBABBBBBB8\
 |BBPPPPPPPPPPPPPPPBBBBBBBPPPPPPPBBBBBB9\
 +-----------------------+\
 0s\
@@ -41,7 +39,7 @@ b end
 :press_right
 	g
 	# Prevent moving in air
-	/(F|S)(.{39})(B|U|D|P|A)/ {
+	/(F|S)(.{39})(U|D|P|A)/ {
 		s/2s/4s/
 		s/1s/2s/
 		s/0s/1s/
@@ -108,10 +106,10 @@ b end
 				s/#*(2\n)/BBBBBBBBBB\1/
 				s/#*(3\n)/BBBBBBBBBB\1/
 				s/#*(4\n)/BBBBBBBBBB\1/
-				s/#*(5\n)/BBBBBBQBBB\1/
-				s/#*(6\n)/BBBBBBqBBB\1/
-				s/#*(7\n)/BBBBBBqBBB\1/
-				s/#*(8\n)/PPPPPPPPPP\1/
+				s/#*(5\n)/BBBBBBBBBU\1/
+				s/#*(6\n)/BBBBUPDBUB\1/
+				s/#*(7\n)/BBBUBBBPBB\1/
+				s/#*(8\n)/PPPBBBBBBB\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
 				s/3z/4z/
 				b continue
@@ -121,12 +119,76 @@ b end
 				s/#*(2\n)/BBBBBBBBBB\1/
 				s/#*(3\n)/BBBBBBBBBB\1/
 				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/ABADBBBBBB\1/
+				s/#*(6\n)/ABABDBBAPP\1/
+				s/#*(7\n)/ABABBDBABB\1/
+				s/#*(8\n)/PPPBBBPPBB\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
+				s/4z/5z/
+				b continue
+			}
+			/5z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBUABB\1/
+				s/#*(6\n)/PPPPPPBPPP\1/
+				s/#*(7\n)/BBBBBBBBBB\1/
+				s/#*(8\n)/BBBBBBBBBB\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
+				s/5z/6z/
+				b continue
+			}
+			/6z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BUABAPABAP\1/
+				s/#*(6\n)/PBABABABAB\1/
+				s/#*(7\n)/BBABABABAB\1/
+				s/#*(8\n)/BBABABABAB\1/
+				s/#*(9\n)/BBPPPBPPPB\1/
+				s/6z/7z/
+				b continue
+			}
+			/7z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/PABAPDBBBB\1/
+				s/#*(6\n)/BABABBDBBB\1/
+				s/#*(7\n)/BABABBBDBB\1/
+				s/#*(8\n)/BABABBBBPP\1/
+				s/#*(9\n)/BPPPBBBBBB\1/
+				s/7z/8z/
+				b continue
+			}
+			/8z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
+				s/#*(5\n)/BBBBBBQBBB\1/
+				s/#*(6\n)/BBBBBBqBBB\1/
+				s/#*(7\n)/BBBBBBqBBB\1/
+				s/#*(8\n)/PPPPPPPPPP\1/
+				s/#*(9\n)/BBBBBBBBBB\1/
+				s/8z/9z/
+				b continue
+			}
+			/9z/ {
+				s/#*(1\n)/BBBBBBBBBB\1/
+				s/#*(2\n)/BBBBBBBBBB\1/
+				s/#*(3\n)/BBBBBBBBBB\1/
+				s/#*(4\n)/BBBBBBBBBB\1/
 				s/#*(5\n)/BBBBBBBBBB\1/
 				s/#*(6\n)/BBBBBBBBBB\1/
 				s/#*(7\n)/BBBBBBBBBB\1/
 				s/#*(8\n)/PPPPPPPPPP\1/
 				s/#*(9\n)/BBBBBBBBBB\1/
-				s/3z/4z/
 				b continue
 			}
 		}
@@ -193,10 +255,16 @@ b end
 :down
 	g
 	# Free fall
+	/S(.{39})F(.{39})B/ {
+		s/F(.{39})B/B\1F/
+		s/S(.{39})B/B\1S/
+		b velocity
+	}
 	/F(.{39})(U|D|P|A)|S(.{39})(U|D|P|A)/ !{
 		s/S(.{39})B/B\1S/
 		s/F(.{39})B/B\1F/
 	}
+	:velocity
 	# Velocity
 	/[1-9]s/ {
 		s/(.)s/\1s\1/
@@ -208,6 +276,7 @@ b end
 		}
 		b right
 	}
+	# Back wheel on the road
 	/S.{39}(U|D|P|A)/ {
 		/F.{39}(U|D|P|A)/ !{ 
 			/F.{35,38}S/b rotate-1
@@ -218,6 +287,7 @@ b end
 			/S.{39,41}F/b rotate-1
 		}
 	}
+	# Front wheel on the road
 	/F.{39}(U|D|P|A)/ {
 		/S.{39}(U|D|P|A)/ !{
 			/F.{37,38}S/b rotate1
@@ -228,20 +298,41 @@ b end
 			/S.{39,41}F/b rotate1
 		}
 	}
-	b end 
+	b check 
 :check
+# One wheel check
 /(S|F)(.*)(F|S)/ ! b die 
-/S.{37,41}F/b end
-/F.{37,41}S/b end
-/F.*S/ {
+
+# Check wheels position
+/S.{39}(U|D|P|A)/ {
 	/F.{39}(U|D|P|A)/ {
-		/S.{39}(U|D|P|A)/b die
+		# Wheels on the road, check upside down driving
+		/S.{35,39}F/ b die
+		/F.{39,41}S/ b die
+		/F.S/ b die
 	}
 }
-/S.F/b end
-/SF/b end
+
+# Wall check
+/S.{39}F/ {
+	/S(U|D|P|A)/ {
+		/F(U|D|P|A)/ b die
+	}
+}
+/F.{39}S/ {
+	/(U|D|P|A)S/ {
+		/(U|D|P|A)F/ b die
+	}
+}
+
+# Bike crash check
+/(S|F).{0,1}(S|F)/ b end
+/(S|F).{37,41}(S|F)/ b end
+
 :die
-s/$/died/
+/died$/ !{
+	s/$/died/
+}
 b end
 :end
 # save changes to hold buffer and process post-effects
@@ -271,7 +362,7 @@ s/q/[107;38;5;33m▏[0m/g
 i\
 [H
 /died$/ {
-	s/died$/You're died!/
+	s/died$/You're dead!\n/
 	p;q
 }
 /win$/ {
